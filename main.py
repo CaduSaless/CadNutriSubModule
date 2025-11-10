@@ -2,8 +2,10 @@ from flask import Flask, render_template
 from routes.auth import auth_bp
 from routes.cadastro import cadastro_bp
 from routes.bd_cad import bd_bp
+from flask import Flask
 
 app = Flask(__name__)
+
 app.config['SECRET_KEY'] = 'projetofacom'
 
 app.register_blueprint(auth_bp)

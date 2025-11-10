@@ -1,6 +1,25 @@
 import random
 from database.cadastros import cadastros
 import sqlite3
+import psycopg2
+import os
+
+def get_db_connection():
+    
+    DB_USER = os.environ.get('DB_USER', 'admin')
+    DB_PASS = os.environ.get('DB_PASS', 'admin123')
+    DB_HOST = os.environ.get('DB_HOST', 'localhost')
+    DB_PORT = os.environ.get('DB_PORT', '5431')
+    DB_NAME = os.environ.get('DB_NAME', 'CadNutriDB')
+    # Conecta ao banco
+    conn = psycopg2.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        port=DB_PORT
+    )
+    return conn
 
 def verifica_cpf(n):
     i = n
@@ -49,7 +68,7 @@ def verifica_user(user):
     return aux
 
 def salva_user(user):
-    db = sqlite3.connect('./database/banco_nutri.db')
+    db = get_db_connection()
     cursor = db.cursor()
     cursor.execute(f"INSERT INTO Pessoa (nome, cpf, raca, sexo, escolaridade, email, data_nascimento) VALUES ('{user['nome']}',{user['CPF']},'{user['raca']}','{user['genero']}','{user['escolaridade']}','{user['email']}','{user['nascimento']}')")
     db.commit()
@@ -57,31 +76,34 @@ def salva_user(user):
     c = cursor.fetchone()
     cursor.execute(f"INSERT INTO Etnia_Pessoa (id_Pessoa, id_Etnia) VALUES ({c[0]},{user['etnia']})")
     db.commit()
+    cursor.close()
     db.close()
     return c[0]
 
 
 def code_etnia(etnia):
-    db = sqlite3.connect('./database/banco_nutri.db')
+    db = get_db_connection()
     cursor = db.cursor()
     cursor.execute(f"SELECT id_Etnia FROM Etnia WHERE nome_Etnia = '{etnia}'")
     c = cursor.fetchone()
+    cursor.close()
     db.close()
     return c[0]
 
 def vetor_etnia():
-    db = sqlite3.connect('./database/banco_nutri.db')
+    db = get_db_connection()
     cursor = db.cursor()
     cursor.execute(f"SELECT nome_Etnia FROM Etnia")
     c = cursor.fetchall()
     vetor = []
     for item in c:
         vetor.append(item[0])
+    cursor.close()
     db.close()
     return vetor
 
 def to_dict_user(cod):
-    db = sqlite3.connect('./database/banco_nutri.db')
+    db = get_db_connection()
     cursor = db.cursor()
     cursor.execute(f"SELECT * FROM Pessoa WHERE id_Pessoa = {cod} ")
     user = cursor.fetchone()
@@ -102,12 +124,14 @@ def to_dict_user(cod):
         'etnia': etnia[0]
     }
     print(aux)
+    cursor.close()
     db.close()
     return aux
 
 def add_etnia(nome):
-    db = sqlite3.connect('./database/banco_nutri.db')
+    db = get_db_connection()
     cursor = db.cursor()
     cursor.execute(f"INSERT INTO Etnia (nome_Etnia, descricao) VALUES ('{nome}','att')")
     db.commit()
+    cursor.close()
     db.close()
