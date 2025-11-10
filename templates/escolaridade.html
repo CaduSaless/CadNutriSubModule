@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'options.css') }}">
+
+    <title>Página dados Escolaridade</title>
+</head>
+<body>
+    <main class="input">
+        <h1>SELECIONE O SEU NÍVEL DE ESCOLARIDADE</h1>
+        <div class="variaveis-py">{{ progresso }}</div>
+        <form action="{{ url_for('cadastro.escolaridade_v') }}" method="post" class="form" id="form-g">
+            <div class="item-grande">
+                <input type="radio" name="esc" value="EF1" required>
+                <label for="EF1" class="radio">Da 1ª à 4ª série do Ensino Fundamental (antigo primário)</label>
+            </div>
+            <div class="item-grande">
+                <input type="radio" name="esc" value="EF2">
+                <label for="EF2" class="radio">Da 5ª à 8ª série do Ensino Fundamental (antigo ginásio)</label>
+            </div>
+            <div class="item-grande">
+                <input type="radio" name="esc" value="EM">
+                <label for="EM" class="radio">Ensino Médio (antigo 2º grau)</label>
+            </div>
+            <div class="item-grande">
+                <input type="radio" name="esc" value="EJA">
+                <label for="EJA" class="radio">Educação de Jovens e Adultos</label>
+            </div>
+            <div class="item-grande">
+                <input type="radio" name="esc" value="NE">
+                <label for="NE" class="radio">Não estudou</label>
+            </div>
+            <div class="item">
+                <input type="radio" name="esc" value="outro">
+                <label for="outro" class="radio">Não Sei</label>
+            </div>
+        </form>
+    </main>
+    <footer class="div_botao">    
+        <button class="botao" onclick="window.location.assign('/cadastro/nascimento')" id="anterior"> <= Anterior</button>
+        <div class="meio">
+            <section class="progresso">
+                <div class="range">
+                    <div class="completado"></div>
+                </div>
+                <h3>% Completado</h3>
+            </section>
+            <aside><span>&#169;</span> made by UFMS</aside>
+        </div>
+            <button class="botao"  form="form-g"  type="submit" id="proximo">Próxima =></button>
+    </footer>
+    <script src="{{ url_for('static', filename= 'script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro FAC/FAN</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cadastro.css') }}">
+</head>
+<body>
+    {% set mensagens = get_flashed_messages() %}
+    {%if mensagens[0]:%}
+    <script>
+        window.alert('{{mensagens[0]}}')
+    </script>
+    {%endif%}
+    <header>
+        <h1>Bem vindo!</h1>
+        <p>Esta é a tela de cadastro para a obtenção de dados antropométricos</p>
+    </head>
+
+    <form action="/" method="post">
+        <label for="email">Email:</label>
+        <input type="email" placeholder="Digite aqui..." id="email" name="email">
+        <label for="pwd">Senha:</label>
+        <input type="text" placeholder="Digite aqui..." id="pwd" name="senha">
+        <button type="submit" class="botao">Logar</button>
+    </form>
+</body>
+</html>

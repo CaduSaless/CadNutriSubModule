@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'db.css') }}">
+
+    <title>Cadastros Salvos</title>
+</head>
+<body>
+    <h1>Aqui estão os cadastros já salvos</h1>
+    <div class="content"></div>
+    <div class="details-c" style="display: block;"></div>
+    <div class="absolute" style="position: absolute; left: 90%; top: 10%;">
+        <a href="{{ url_for('cadastro.homepage_cad') }}">Tela de cadastro</a>
+    </div>
+    <script>
+        function load() {    
+            fetch("{{ url_for('bd.content') }}")
+            .then(response => response.text())
+            .then(html => document.querySelector('.content').innerHTML = html) 
+            .then(() => {
+                delete_btn = document.getElementsByClassName('delete')
+                for (const el of delete_btn) {
+                    el.addEventListener('click', este => {
+                        const linha = el.parentElement.parentElement
+                        console.log(linha)
+                        const cod = linha.children[0]
+                        fetch("{{ url_for('bd.delete') }}", {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                codigo: cod.innerHTML
+                            })
+                            })
+                            .then(response => response.json())
+                            .then(data => {if (data['ok'] === 'ok'){
+                                linha.innerHTML = ''
+                                console.log(linha)
+                            }})
+                    })
+                }
+                details_btn = document.getElementsByClassName('details')
+                for (const el of details_btn) {
+                    el.addEventListener('click', este => {
+                        const linha = el.parentElement.parentElement
+                        const cod = linha.children[0]
+                        fetch(`{{ url_for('bd.details', cod=0) }}`.replace('0', cod.innerHTML))
+                            .then(response => response.text())
+                            .then(html => {let detalhes = document.querySelector('.details-c')
+                                detalhes.innerHTML = html
+                                document.querySelector('span').addEventListener('click', () => {
+                                    detalhes.innerHTML = ''
+                                })
+                            })
+                    })
+                }
+            })
+        }
+        document.addEventListener('DOMContentLoaded', load())
+    </script>
+</body>
+</html>

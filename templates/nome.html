@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'campos.css') }}">
+    <title>Página dados Nome</title>
+</head>
+<body>
+    {% set mensagens = get_flashed_messages() %}
+    {%if mensagens[0]:%}
+    <script>
+        window.alert('{{mensagens[0]}}')
+    </script>
+    {%endif%}
+    <main class="input">
+        <h1>AGORA, DIGITE O SEU NOME</h1>
+        <div class="variaveis-py">{{ progresso }}</div>
+        <form action="{{ url_for('cadastro.nome_v') }}" method="post" class="form" id="form">    
+            <input type="text" id="nome" placeholder="Digite aqui..." name="nome" required> 
+        </form>    
+    </main>
+    <footer class="div_botao">    
+        <button class="botao" onclick="window.location.assign('/cadastro/')" id="anterior"> <= Anterior</button>
+        <div class="meio">
+            <section class="progresso">
+                <div class="range">
+                    <div class="completado"></div>
+                </div>
+                <h3>% Completado</h3>
+            </section>
+            <aside><span>&#169;</span> made by UFMS</aside>
+        </div>
+            <button class="botao"  form="form"  type="submit" id="proximo">Próxima =></button>
+    </footer>
+</body>
+</html>

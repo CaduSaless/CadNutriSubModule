@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'home.css') }}">
+
+    <title>Homepage Cadastro</title>
+</head>
+<body>
+    {% set mensagens = get_flashed_messages() %}
+    {%if mensagens[0]:%}
+    <script>
+        window.alert('{{mensagens[0]}}')
+    </script>
+    {%endif%}
+    <h1>Bem vindo à Página de Cadastros!</h1>
+    <p>Coloque algumas informações para identificação antes das medições</p>
+    <button>Iniciar</button>
+    <div class="absolute">
+        <a href="{{ url_for('bd.bd_home') }}">Ver cadastros</a>
+    </div>
+    <script>
+        document.querySelector('button').addEventListener('click', () => {
+            window.location.assign('/cadastro/nome')
+        })
+    </script>
+</body>
+</html>

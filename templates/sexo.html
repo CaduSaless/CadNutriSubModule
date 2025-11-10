@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'options.css') }}">
+
+    <title>Seleção de Sexo</title>
+</head>
+<body>
+    {% set mensagens = get_flashed_messages() %}
+    {%if mensagens[0]:%}
+    <script>
+        window.alert('{{mensagens[0]}}')
+    </script>
+    {%endif%}
+    <main class="input">
+        <h1>SELECIONE O SEU SEXO</h1>
+        <div class="variaveis-py">{{ progresso }}</div>
+        <form action="{{ url_for('cadastro.genero_v') }}" method="post" class="form" id="form-p" >
+            <div class="item">
+                <input type="radio" name="gender"  value="feminino" >
+                <label for="fem">Fem</label>
+            </div>
+            <div class="item">
+                <input type="radio" name="gender"  value="masculino" >
+                <label for="masc">Masc</label>
+            </div>
+            <div class="item-grande">
+                <input type="radio" name="gender"  value="outro" required>
+                <label for="outro">Prefiro não responder</label>
+            </div>
+        </form>
+    </main>
+    <footer class="div_botao">    
+        <button class="botao" onclick="window.location.assign('/cadastro/cpf')" id="anterior"> <= Anterior</button>
+        <div class="meio">
+            <section class="progresso">
+                <div class="range">
+                    <div class="completado"></div>
+                </div>
+                <h3>% Completado</h3>
+            </section>
+            <aside><span>&#169;</span> made by UFMS</aside>
+        </div>
+            <button class="botao"  form="form-p"  type="submit" id="proximo">Próxima =></button>
+    </footer>
+    <script src="{{ url_for('static', filename= 'script.js') }}"></script>
+</body>
+</html>

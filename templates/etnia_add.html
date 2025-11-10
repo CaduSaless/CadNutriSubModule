@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'campos.css') }}">
+    <title>Página dados Email</title>
+</head>
+<body>
+    <main class="input">
+        <h1>DIGITE QUAL A SUA ETNIA</h1>
+        <div class="variaveis-py">{{ progresso }}</div>
+        <form action="{{ url_for('cadastro.etnia_add_v') }}" method="post" class="form" id="form">
+            <input type="text" id="etnia" placeholder="Digite aqui..." name="etnia" required autocomplete="off"> 
+        </form>    
+    </main>
+    <footer class="div_botao">    
+        <button class="botao" onclick="window.location.assign('/cadastro/etnia')" id="anterior"> <= Anterior</button>
+        <div class="meio">
+            <section class="progresso">
+                <div class="range">
+                    <div class="completado"></div>
+                </div>
+                <h3>% Completado</h3>
+            </section>
+            <aside><span>&#169;</span> made by UFMS</aside>
+        </div>
+            <button class="botao"  form="form"  type="submit" id="proximo">Próxima =></button>
+    </footer>
+</body>
+</html>

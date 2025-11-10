@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+table {
+    border-radius: 0px;
+    align-self: center;
+    width: 80dvw;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 10px;
+    overflow: hidden;
+}
+
+th:first-child {
+    border-top-left-radius: 10px; /* Arredonda canto superior esquerdo */
+}
+  
+th:last-child {
+    border-top-right-radius: 10px; /* Arredonda canto superior direito */
+}
+  
+tr:last-child td:first-child {
+    border-bottom-left-radius: 10px; /* Arredonda canto inferior esquerdo */
+}
+  
+tr:last-child td:last-child {
+    border-bottom-right-radius: 10px; /* Arredonda canto inferior direito */
+}
+
+span {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+}
+
+.teste{
+    max-width: 80dvw;
+    position: relative
+}
+
+body {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+
+}
+
+h1 {
+    text-align: center;
+    height: 5vh;
+}
+
+.content, .details-c{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+.content {
+    min-height: 95dvh;
+    
+}
+
+
+
+table thead {
+    background-color: blue
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px 10px;
+}
+
+.buttons {
+    position: relative;
+}
+
+.delete, .details {
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    transform: translate(-50%, -50%); 
+}
+
+.delete {
+    left: 33%;
+}
+
+.details {
+    left: 66%;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Linhas zebradas */
+}

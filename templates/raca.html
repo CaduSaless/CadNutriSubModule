@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página dados Raça</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'options.css') }}">
+</head>
+<body>
+    {% set mensagens = get_flashed_messages() %}
+    {%if mensagens[0]:%}
+    <script>
+        window.alert('{{mensagens[0]}}')
+    </script>
+    {%endif%}
+    <main class="input">
+        <h1>SELECIONE A SUA RAÇA SEGUNDO O IBGE</h1>
+        <div class="variaveis-py">{{ progresso }}</div>
+        <form action="{{ url_for('cadastro.raca_v') }}" method="post" class="form" id="form" >
+            <div class="item">
+                <input type="radio" name="raca" value="branco" required>
+                <label for="branco">Branca</label>
+            </div>
+            <div class="item">
+
+                <input type="radio" name="raca" value="pardo" >
+                <label for="pardo">Parda</label>
+            </div>
+            <div class="item">
+
+                <input type="radio" name="raca" value="preto" >
+                <label for="preto">Preta</label>
+            </div>
+            <div class="item">
+
+                <input type="radio" name="raca" value="amarelo" >
+                <label for="amarelo">Amarela</label>
+            </div>
+            <div class="item">
+
+                <input type="radio" name="raca" value="indigena">
+                <label for="indigena">Indígena</label>
+            </div>
+        </form>
+    </main>
+    <footer class="div_botao">    
+        <button class="botao" onclick="window.location.assign('/cadastro/genero')" id="anterior"> <= Anterior</button>
+        <div class="meio">
+            <section class="progresso">
+                <div class="range">
+                    <div class="completado"></div>
+                </div>
+                <h3>% Completado</h3>
+            </section>
+            <aside><span>&#169;</span> made by UFMS</aside>
+        </div>
+            <button class="botao"  form="form"  type="submit" id="proximo">Próxima =></button>
+    </footer>
+    <script src="{{ url_for('static', filename= 'script.js') }}"></script>
+</body>
+</html>
