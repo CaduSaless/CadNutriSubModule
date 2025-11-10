@@ -1,25 +1,48 @@
-import random
-from database.cadastros import cadastros
-import sqlite3
 import psycopg2
 import os
 
 def get_db_connection():
+    try:
+        DB_USER = os.environ.get('DB_USER', 'admin')
+        DB_PASS = os.environ.get('DB_PASS', 'admin123')
+        DB_HOST = os.environ.get('DB_HOST', 'localhost')
+        DB_PORT = os.environ.get('DB_PORT', '5431')
+        DB_NAME = os.environ.get('DB_NAME', 'CadNutriDB')
+        # Conecta ao banco
+        conn = psycopg2.connect(
+            host=DB_HOST,
+            database=DB_NAME,
+            user=DB_USER,
+            password=DB_PASS,
+            port=DB_PORT
+        )
+        return conn
+    except Exception as e:
+        print(f"erro ao conectar: {e}")
+        return None
+
+def init_DB():
+    try:
+        conn = get_db_connection()
+        if not conn:
+            return 'Erro ao conectar ao Banco de Dados'
     
-    DB_USER = os.environ.get('DB_USER', 'admin')
-    DB_PASS = os.environ.get('DB_PASS', 'admin123')
-    DB_HOST = os.environ.get('DB_HOST', 'localhost')
-    DB_PORT = os.environ.get('DB_PORT', '5431')
-    DB_NAME = os.environ.get('DB_NAME', 'CadNutriDB')
-    # Conecta ao banco
-    conn = psycopg2.connect(
-        host=DB_HOST,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASS,
-        port=DB_PORT
-    )
-    return conn
+        cur = conn.cursor()
+        f = open('../database/bancoInit.sql', 'r')
+        sql_scripts = f.read()
+        sql_scripts = sql_scripts.split(';')
+        for script in sql_scripts:
+            if script.strip():
+                cur.execute(script)
+        conn.commit()
+        return f"Banco inicializado com sucesso!"
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return f"Erro ao executar o script SQL: {e}"
+    finally:
+        if conn:
+            conn.close()
 
 def verifica_cpf(n):
     i = n

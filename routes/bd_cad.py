@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, flash, session, redirect, url_for
 from database.cadastro import user
-from static.functions import to_dict_user
-import sqlite3
+from static.functions import to_dict_user, get_db_connection
 
 bd_bp = Blueprint('bd', __name__)
 nomes = ['Código','Nome', 'CPF', 'Raça', 'Gênero', 'Escolaridade', 'Email', 'Data de Nascimento']
@@ -13,21 +12,33 @@ def bd_home():
 @bd_bp.route('/delete', methods=['DELETE'])
 def delete():
     data = request.get_json()
-    db = sqlite3.connect('./database/banco_nutri.db')
-    cursor = db.cursor()
-    cursor.execute(f"DELETE FROM Pessoa WHERE id_Pessoa = {data['codigo']}")
-    cursor.execute(f"DELETE FROM Etnia_Pessoa WHERE id_Pessoa = {data['codigo']}")
-    db.commit()
-    db.close()
+    try:
+        db = get_db_connection()
+        if not db:
+            return {"message": "Erro ao conectar ao Banco de dados"}
+        cursor = db.cursor()
+        cursor.execute(f"DELETE FROM Pessoa WHERE id_Pessoa = {data['codigo']}")
+        cursor.execute(f"DELETE FROM Etnia_Pessoa WHERE id_Pessoa = {data['codigo']}")
+        db.commit()
+        db.close()
+    except Exception as e:
+        return {"message": f"Erro ao deletar usuário, {e}"}
+        
     return {'ok': 'ok'}
 
 @bd_bp.route('/content')
 def content():
-    db = sqlite3.connect('./database/banco_nutri.db')
-    cursor = db.cursor()
-    cursor.execute(f"SELECT * FROM Pessoa")
-    cad = cursor.fetchall()
-    db.close()
+    try:
+        db = get_db_connection()
+        if not db:
+            return {"message": "Erro ao conectar ao Banco de dados"}
+        cursor = db.cursor()
+        cursor.execute(f"SELECT * FROM Pessoa")
+        cad = cursor.fetchall()
+        db.close()
+    except Exception as e:
+        return {"message": f"Erro ao carregar conteúdo, {e} "}
+
     return render_template('itens-table.html', cad= cad)
 
 @bd_bp.route('/get_user/<cod>')

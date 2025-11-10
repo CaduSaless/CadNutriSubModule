@@ -3,10 +3,12 @@ from routes.auth import auth_bp
 from routes.cadastro import cadastro_bp
 from routes.bd_cad import bd_bp
 from flask import Flask
+from static.functions import init_DB
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'projetofacom'
+init_DB()
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(cadastro_bp)
