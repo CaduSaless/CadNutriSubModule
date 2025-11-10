@@ -10,7 +10,7 @@ def get_db_connection():
         DB_USER = os.environ.get('DB_USER', 'admin')
         DB_PASS = os.environ.get('DB_PASS', 'admin123')
         DB_HOST = os.environ.get('DB_HOST', 'localhost')
-        DB_PORT = os.environ.get('DB_PORT', '5431')
+        DB_PORT = os.environ.get('DB_PORT', '5432')
         DB_NAME = os.environ.get('DB_NAME', 'CadNutriDB')
         print(DB_HOST)
         # Conecta ao banco
