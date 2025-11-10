@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Medidas_Antropomorficas (
     id_Medidas SERIAL PRIMARY KEY,
     id_Pessoa INTEGER NOT NULL REFERENCES Pessoa (id_Pessoa) ON DELETE CASCADE ON UPDATE CASCADE,
     peso_kg NUMERIC (5) NOT NULL,
-    altura_cm INTEGER (4) NOT NULL,
+    altura_cm INTEGER NOT NULL,
     tipo_Cabelo TEXT NOT NULL,
     cor_Cabelo TEXT NOT NULL,
     imagem BYTEA UNIQUE,

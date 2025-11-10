@@ -1,13 +1,18 @@
 import psycopg2
 import os
+from dotenv import load_dotenv
+
+
 
 def get_db_connection():
+    load_dotenv()
     try:
         DB_USER = os.environ.get('DB_USER', 'admin')
         DB_PASS = os.environ.get('DB_PASS', 'admin123')
-        DB_HOST = os.environ.get('DB_HOST', 'localhost')
+        DB_HOST = os.environ.get('DB_pipHOST', 'localhost')
         DB_PORT = os.environ.get('DB_PORT', '5431')
         DB_NAME = os.environ.get('DB_NAME', 'CadNutriDB')
+        print(DB_HOST)
         # Conecta ao banco
         conn = psycopg2.connect(
             host=DB_HOST,
@@ -28,17 +33,19 @@ def init_DB():
             return 'Erro ao conectar ao Banco de Dados'
     
         cur = conn.cursor()
-        f = open('../database/bancoInit.sql', 'r')
+        f = open('./database/bancoInit.sql', 'r')
         sql_scripts = f.read()
         sql_scripts = sql_scripts.split(';')
         for script in sql_scripts:
             if script.strip():
                 cur.execute(script)
         conn.commit()
+        print(f"Banco inicializado com sucesso")
         return f"Banco inicializado com sucesso!"
     except Exception as e:
         if conn:
             conn.rollback()
+        print(f"Erro ao executar o script SQL: {e}")
         return f"Erro ao executar o script SQL: {e}"
     finally:
         if conn:
